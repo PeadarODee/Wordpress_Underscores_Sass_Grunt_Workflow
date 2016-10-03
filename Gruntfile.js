@@ -10,7 +10,7 @@ module.exports = function (grunt) {
                 }, 
                 
                 files: {
-                    'style-human.css' : 'sass/style.scss'
+                    'compiled/style-human.css' : 'sass/style.scss'
                 } 
             }, 
             
@@ -21,20 +21,33 @@ module.exports = function (grunt) {
                 },
             
             files: {
-                'style.css' : 'sass/style.scss'
+                'compiled/style.css' : 'sass/style.scss'
                 }
             } 
         }, 
         
+        autoprefixer: {
+            options: {
+                browsers: ['last 2 versions']
+            },
+            multiple_files: {
+                expand: true,
+                flatten: true,
+                src: 'compiled/*.css',
+                dest: ''
+            }
+        },
+        
         watch: {
             css: {
                 files: '**/*.scss', 
-                tasks: ['sass'] 
+                tasks: ['sass', 'autoprefixer'] 
             } 
         } 
     }); 
     
     grunt.loadNpmTasks('grunt-contrib-sass'); 
     grunt.loadNpmTasks('grunt-contrib-watch'); 
+    grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.registerTask('default', ['watch']); 
 } 
